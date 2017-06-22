@@ -10,3 +10,8 @@ JAVA高并发秒杀项目，基于SSM框架
 ```
 mvn archetype:create -DgroupId=org.seckill -DartifactId=seckill -DarchetypeArtifactId=maven-archetype-webapp
 ```
+## Spring整合Mybatis
+### 整合目标
++ 更少的编码：只写接口，不写实现。
++ 更少的配置
++ 足够的灵活性
