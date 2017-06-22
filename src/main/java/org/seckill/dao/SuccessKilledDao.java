@@ -2,10 +2,12 @@ package org.seckill.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.seckill.entity.SuccessKilled;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by 24102 on 2017/6/21.
  */
+@Repository
 public interface SuccessKilledDao {
     /**
      * 插入购买明细，可过滤重复
