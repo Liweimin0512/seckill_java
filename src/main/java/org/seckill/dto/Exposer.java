@@ -20,6 +20,18 @@ public class Exposer {
     //结束时间
     private Long end;
 
+    @Override
+    public String toString() {
+        return "Exposer {" +
+                "exposed=" + exposed +
+                ", md5=" + md5 +
+                ", seckillId=" + seckillId +
+                ", now=" + now +
+                ", start=" + start +
+                ", end=" + end +
+                "}";
+    }
+
     public Exposer(boolean exposed, String md5, Long seckillId) {
         this.exposed = exposed;
         this.md5 = md5;

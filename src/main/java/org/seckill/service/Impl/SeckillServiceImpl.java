@@ -63,7 +63,7 @@ public class SeckillServiceImpl implements SeckillService{
     }
 
     private String getMD5(Long seckillId){
-        String base = seckillId + "/" +salt;
+        String base = seckillId+"/"+salt;
         String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
         return md5;
     }
@@ -78,7 +78,7 @@ public class SeckillServiceImpl implements SeckillService{
      */
     public SeckillExecution executeSeckill(Long seckillId, Long userPhone, String md5)
             throws SeckillException, RepeatKillException, SeckillCloseException {
-        if(md5 == null || md5.equals(getMD5(seckillId))){
+        if(md5 == null || !md5.equals(getMD5(seckillId))){
             throw new SeckillException("seckill data rewrite");
         }
         //执行秒杀业务逻辑：减库存，记录购买行为
