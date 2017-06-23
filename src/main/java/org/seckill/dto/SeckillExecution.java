@@ -16,17 +16,17 @@ public class SeckillExecution {
 
     private SuccessKilled successKilled;
 
-    public SeckillExecution(Long seckillId, SeckillStatEnum stateEnum, SuccessKilled successKilled) {
+    public SeckillExecution(long seckillId, SeckillStatEnum seckillStatusEnum, SuccessKilled successKilled) {
         this.seckillId = seckillId;
-        this.state = stateEnum.getState();
-        this.stateInfo = stateInfo;
+        this.state = seckillStatusEnum.getState();
+        this.stateInfo = seckillStatusEnum.getStateInfo();
         this.successKilled = successKilled;
     }
 
-    public SeckillExecution(Long seckillId, SeckillStatEnum stateEnum, String stateInfo) {
+    public SeckillExecution(long seckillId, SeckillStatEnum seckillStatusEnum) {
         this.seckillId = seckillId;
-        this.state = stateEnum.getState();
-        this.stateInfo = stateInfo;
+        this.state = seckillStatusEnum.getState();
+        this.stateInfo = seckillStatusEnum.getStateInfo();
     }
 
     public Long getSeckillId() {
