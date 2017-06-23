@@ -10,15 +10,15 @@
 <body>
     <div class="container">
         <div class="panel panel-default text-center">
-            <div class="pannel-heading">
+            <div class="panel-heading">
                 <h1>${seckill.name}</h1>
             </div>
-        </div>
-        <div class="panel-body">
-            <h2 class="text-danger">
-                <span class="glyphicon glyphicon-time"></span>
-                <span class="glyphicon" id="seckill-box"></span>
-            </h2>
+            <div class="panel-body">
+                <h2 class="text-danger">
+                    <span class="glyphicon glyphicon-time"></span>
+                    <span class="glyphicon" id="seckill-box"></span>
+                </h2>
+            </div>
         </div>
     </div>
     <%--登录弹出层，输入电话号--%>
