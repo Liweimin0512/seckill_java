@@ -1,12 +1,12 @@
 package org.seckill.dao;
 
-import javafx.scene.Scene;
 import org.apache.ibatis.annotations.Param;
 import org.seckill.entity.Seckill;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 24102 on 2017/6/21.
@@ -35,4 +35,10 @@ public interface SeckillDao {
      * @return
      */
     List<Seckill> queryAll(@Param("offset") int offset, @Param("limit") int limit);
+
+    /**
+     * 使用存储过程执行秒杀
+     * @param paramMap
+     */
+    void killByProcedure(Map<String, Object>paramMap);
 }
