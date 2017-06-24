@@ -1,5 +1,6 @@
 package org.seckill.service.Impl;
 
+import org.apache.commons.collections.MapUtils;
 import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
 import org.seckill.dao.cache.RedisDao;
@@ -20,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 24102 on 2017/6/22.
@@ -102,17 +105,17 @@ public class SeckillServiceImpl implements SeckillService {
         //执行秒杀业务逻辑：减库存，记录购买行为
         Date nowTime = new Date();
         try {
-            Integer updateCount = seckillDao.reduceNumber(seckillId, nowTime);
-            if (updateCount <= 0) {
-                //没有更新到记录，秒杀结束。
-                throw new SeckillCloseException("seckill is closed");
+            //减库存成功，记录购买行为
+            Integer insertCount = successKilledDao.insertSuccessKilled(seckillId, userPhone);
+            //唯一：seckillId,userPhone
+            if (insertCount <= 0) {
+                //重复秒杀
+                throw new RepeatKillException("seckill repeated");
             } else {
-                //减库存成功，记录购买行为
-                Integer insertCount = successKilledDao.insertSuccessKilled(seckillId, userPhone);
-                //唯一：seckillId,userPhone
-                if (insertCount <= 0) {
-                    //重复秒杀
-                    throw new RepeatKillException("seckill repeated");
+                Integer updateCount = seckillDao.reduceNumber(seckillId, nowTime);
+                if (updateCount <= 0) {
+                    //没有更新到记录，秒杀结束。
+                    throw new SeckillCloseException("seckill is closed");
                 } else {
                     //秒杀成功
                     SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(seckillId, userPhone);
@@ -129,5 +132,32 @@ public class SeckillServiceImpl implements SeckillService {
             throw new SeckillException("seckill inner error:" + e.getMessage());
         }
 
+    }
+
+    public SeckillExecution executeSeckillProcedure(Long seckillId, Long userPhone, String md5) {
+        if (md5 == null || !md5.equals(getMD5(seckillId))) {
+            return new SeckillExecution(seckillId, SeckillStatEnum.DATA_REWRITE);
+        }
+        Date killTime = new Date();
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("seckillId", seckillId);
+        map.put("phone", userPhone);
+        map.put("killTime", killTime);
+        map.put("result", null);
+        try {
+            seckillDao.killByProcedure(map);
+            //获取result
+            int result = MapUtils.getInteger(map, "result", -2);
+            if (result == 1) {
+                SuccessKilled sk = successKilledDao.
+                        queryByIdWithSeckill(seckillId, userPhone);
+                return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, sk);
+            } else {
+                return new SeckillExecution(seckillId, SeckillStatEnum.stateOf(result));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            return new SeckillExecution(seckillId, SeckillStatEnum.INNER_ERROR);
+        }
     }
 }
