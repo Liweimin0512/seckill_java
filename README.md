@@ -15,3 +15,8 @@ mvn archetype:create -DgroupId=org.seckill -DartifactId=seckill -DarchetypeArtif
 + 更少的编码：只写接口，不写实现。
 + 更少的配置
 + 足够的灵活性
+
+## 高并发优化方案
++ 前端控制：暴露接口，按钮防重复
++ 动静态数据分离：CDN缓存，后端缓存
++ 事务竞争优化：减少事务锁时间
