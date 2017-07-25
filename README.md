@@ -1,12 +1,12 @@
-# seckill
-JAVA高并发秒杀项目，基于SSM框架
+# seckill_java
+JAVA高并发秒杀项目DEMO，具有很强的学习价值，基于SSM框架,利用redis缓存。注释完全。项目可运行。
 
-# 关于releases
+## 关于releases
 你可以看到4个tag，分别对应了开发的四个部分，分别是：
-+ dao层的实现
-+ service层的实现
-+ web层的实现
-+ 高并发优化
++ v1.0 dao层的实现
++ v2.0 service层的实现
++ v3.0 web层的实现
++ v4.0 高并发优化
 
 ## 一些配置的官方地址
 [logback配置](http://logback.qos.ch/manual/configuration.html)
